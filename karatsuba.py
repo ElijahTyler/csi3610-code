@@ -1,29 +1,42 @@
-def k_len(n, base):
-    ret = 0
-    while n > 0:
-        n //= base
-        ret += 1
-    return ret
+# assume base 10
+# (x1 + x0)(y1 + y0) = x1y1 + (x1y0 + x0y1) + x0y0
+# a = b + (middle digit) + c
+# a - b - c = middle digit
 
-def k_split(num, base, index):
-    return (num // (base ** index)), num % (base ** index)
+def k_decomp(n):
+    digits = 0
+    paul = n
 
-def karatsuba(x, y, base):
+    while paul > 0:
+        paul //= 10
+        digits += 1
+    digits //= 2 # digits is the midpoint of the number
+
+    n1 = n // (10**digits)
+    n0 = n % (10**digits)
+
+    return n1, n0
+
+
+def k_comp(n2, n1, n0):
+    return (n2 * 100) + (n1 * 10) + n0
+
+
+def karatsuba(x, y):
     if x < 10 or y < 10:
-        return x * y # normal multiplication
+        return x * y
     
-    m = max(k_len(x, base), k_len(y, base))
-    m2 = m // 2
+    x1, x0 = k_decomp(x)
+    y1, y0 = k_decomp(y)
 
-    high1, low1 = k_split(x, base, m2)
-    high2, low2 = k_split(y, base, m2)
+    z2 = karatsuba(x1, y1)
+    z0 = karatsuba(x0, y0)
+    z1 = karatsuba(x1 + x0, y1 + y0) - z2 - z0
 
-    z0 = karatsuba(low1, low2, base)
-    z1 = karatsuba(low1 + high1, low2 + high2, base)
-    z2 = karatsuba(high1, high2, base)
-
-    ret = (z2 * base**(2*m2)) + ((z1 - z2 - z0) * base**m2) + z0
+    ret = k_comp(z2, z1, z0)
     return ret
 
-paul = karatsuba(11, 27, 10)
+
+
+paul = karatsuba(11, 27)
 print(paul)
