@@ -15,8 +15,6 @@ def bfs(graph, start): # total runtime is O(|V| + |E|)
                 discovered.add(next)
                 queue.append(next)
 
-    return 'fortnite'
-
 graph = {
     1: [2,3,4],
     2: [1,4],
