@@ -1,5 +1,5 @@
 def dijkstra(graph, source): # assume edge weight >= 0
-    def min_unvisited_linear_search(): # O(|V|)
+    def min_unvisited(): # O(|V|)
         best_dist = float('inf')
         best_v = None
         for i in range(len(dist)):
@@ -8,7 +8,7 @@ def dijkstra(graph, source): # assume edge weight >= 0
                 best_v = i
         return best_v
     
-    def min_unvisited():
+    def min_unvisited_heap():
         # to implement with heap, we need a decrease_key() function that reduces a value in a heap
         # to decrease a node in a heap, replace its value and heapify_up -> O(lg n)
         # AND we need to maintain a lookup table for where each vertex is on the heap
@@ -28,7 +28,7 @@ def dijkstra(graph, source): # assume edge weight >= 0
     dist[source] = 0
     unvisited = set(range(len(graph)))
     while len(unvisited): # O(|V|)
-        next = min_unvisited_linear_search() # O(|V|)
+        next = min_unvisited() # O(|V|)
 
         if dist[next] == float('inf'): # disconnected graph
             break
