@@ -36,7 +36,10 @@ def dijkstra(graph, source): # assume edge weight >= 0
         for weight, target in graph[next]:
             relax(next, target, weight) # called once per every edge, O(|E|)
         
-        unvisited.remove(next)
+        try:
+            unvisited.remove(next)
+        except:
+            pass
     
     return dist, prev
     # runtime w/ linear search
